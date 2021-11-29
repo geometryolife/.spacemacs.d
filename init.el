@@ -39,7 +39,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     better-defaults
+     (better-defaults :variables better-defaults-move-to-end-of-code-first t)
      emacs-lisp
      git
      helm
@@ -53,8 +53,10 @@ This function should only modify configuration layer settings."
      spell-checking
      syntax-checking
      ;; version-control
+     treemacs
      ivy
-     treemacs)
+     geometryolife
+     )
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -65,7 +67,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(youdao-dictionary)
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -549,6 +551,9 @@ before packages are loaded."
   ;; 取消 evil 的一些键映射
   (setcdr evil-insert-state-map nil)
   (define-key evil-insert-state-map [escape] 'evil-normal-state)
+  ;; 取消鼠标光标聚焦状态栏时突出显示，修改mode-line的形状，新版本不使用这些
+  ;; (setq ns-use-srgb-colorspace nil)
+  ;; (setq dotspacemacs-mode-line-theme '(all-the-icons :separator bar))
 
   (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
   (load custom-file 'no-error 'no-message)
