@@ -41,7 +41,11 @@
 ;;; Code:
 
 (defconst geometryolife-packages
-  '(youdao-dictionary)
+  '(youdao-dictionary
+    company
+    ;; (occur-mode :location built-in) ;; spacemacs 已默认设置
+    (gulpjs :location (recipe :fetcher github :repo "zilongshanren/emacs-gulpjs"))
+    )
   "The list of Lisp packages required by the geometryolife layer.
 
 Each entry is either:
@@ -76,3 +80,15 @@ Each entry is either:
     (spacemacs/set-leader-keys "oy" 'youdao-dictionary-search-at-point+)
     )
   )
+
+(defun geometryolife/post-init-company()
+  (setq company-minimum-prefix-length 1))
+
+;; (defun geometryolife/init-occur-mode()
+;;   (evilified-state-evilify-map occur-mode-map
+;;     :mode occur-mode)
+;;   )
+
+(defun geometryolife/init-gulpjs()
+  (use-package gulpjs
+    :init))
