@@ -55,6 +55,7 @@ This function should only modify configuration layer settings."
      ;; version-control
      treemacs
      ivy
+     javascript
      geometryolife
      )
 
@@ -548,17 +549,54 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; Two keys sequence to escape from insert state."
+  ;; Set escape keybinding to "kj"
+  (setq-default evil-escape-key-sequence "kj")
+  ;; Max time delay between two key presses
+  (setq-default evil-escape-delay 0.2)
+
   ;; 取消 evil 的一些键映射
-  (setcdr evil-insert-state-map nil)
-  (define-key evil-insert-state-map [escape] 'evil-normal-state)
+  ;; (setcdr evil-insert-state-map nil)
+  ;; (define-key evil-insert-state-map [escape] 'evil-normal-state)
   ;; 取消鼠标光标聚焦状态栏时突出显示，修改mode-line的形状，新版本不使用这些
   ;; (setq ns-use-srgb-colorspace nil)
   ;; (setq dotspacemacs-mode-line-theme '(all-the-icons :separator bar))
+
+  (defun indent-buffer ()
+    "Indent the currently visited buffer."
+    (interactive)
+    ;; point-min 获取选中文本的开头，point-max 获取选中文本的结尾
+    (indent-region (point-min) (point-max)))
+
+  (defun indent-region-or-buffer ()
+    "Indent a region if selected, otherwise the whole buffer."
+    (interactive) ;; 可以交互式访问（M-x）或者绑定快捷键
+    ;; 当执行完 save-excursion 身体内的语句后，会恢复 执行包裹这些语句前 光标所在的位置
+    (save-excursion
+      (if (region-active-p)
+          (progn
+	          ;; 下面把选中的文本传给 indent-region 函数
+            (indent-region (region-beginning) (region-end))
+            (message "Indented selected region."))
+        ;; 没有选中的话，就直接调用 indent-buffer
+        (progn
+          (indent-buffer)
+          (message "Indented buffer.")))))
+  ;; 绑定和 indent-fuffer 快捷键一样的
+  (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
+
+  ;; 设置“最近”打开的最大项目数的变量为25，默认为10
+  (setq recentf-max-menu-items 25)
 
   (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
   (load custom-file 'no-error 'no-message)
   )
 
+;; 绑定快捷键查找函数、变量、函数绑定的快捷键在哪个文件中
+;; (global-set-key (kbd "C-h C-f") 'find-function)
+;; (global-set-key (kbd "C-h C-v") 'find-variable)
+(global-set-key (kbd "C-h C-k") 'find-function-on-key)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -567,4 +605,4 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-)
+  )
