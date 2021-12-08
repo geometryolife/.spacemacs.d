@@ -42,6 +42,7 @@
 
 (defconst geometryolife-packages
   '(youdao-dictionary
+    lispy
     company
     ;; (occur-mode :location built-in) ;; spacemacs 已默认设置
     (gulpjs :location (recipe :fetcher github :repo "zilongshanren/emacs-gulpjs"))
@@ -91,4 +92,8 @@ Each entry is either:
 
 (defun geometryolife/init-gulpjs()
   (use-package gulpjs
+    :init))
+
+(defun geometryolife/init-lispy()
+  (use-package lispy
     :init))

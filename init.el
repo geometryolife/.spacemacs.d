@@ -56,6 +56,8 @@ This function should only modify configuration layer settings."
      treemacs
      ivy
      javascript
+     html
+     command-log
      geometryolife
      )
 
